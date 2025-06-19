@@ -17,9 +17,9 @@ This example demonstrates how to programmatically use the computer-use demo with
    podman cp claude_agent_loop_example.py <container_name>:/home/computeruse/
    ```
 
-3. Run the script inside the container:
+3. Run the script inside the container with your instruction:
    ```bash
-   podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py
+   podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Your instruction here"
    ```
 
 ## What it does
@@ -32,6 +32,22 @@ The script demonstrates the full agent loop with multi-step task completion:
 5. Claude provides a final response when the task is done
 
 This matches the Streamlit behavior where Claude can complete complex multi-step tasks in a single conversation.
+
+## Example Commands
+
+```bash
+# Simple screenshot
+podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Take a screenshot and describe what you see"
+
+# Multi-step file operations
+podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open a terminal, create a file called test.txt with 'Hello World', then display its contents"
+
+# Calculator operations
+podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open the calculator and compute 42 * 17"
+
+# Web browsing
+podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open Firefox, navigate to example.com, and take a screenshot"
+```
 
 ## Extending the example
 

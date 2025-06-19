@@ -3,6 +3,7 @@
 
 import asyncio
 import os
+import sys
 from anthropic import Anthropic
 from anthropic.types.beta import BetaToolUseBlock
 from computer_use_demo.tools.computer import ComputerTool20250124
@@ -10,7 +11,16 @@ from computer_use_demo.tools.bash import BashTool20250124
 from computer_use_demo.tools.edit import EditTool20250124
 from computer_use_demo.tools.collection import ToolCollection
 
-async def main():
+async def main(instruction=None):
+    # Get instruction from parameter or command line
+    if instruction is None:
+        if len(sys.argv) > 1:
+            instruction = " ".join(sys.argv[1:])
+        else:
+            print("Usage: python claude_agent_loop_example.py <instruction>")
+            print("Example: python claude_agent_loop_example.py 'Take a screenshot and tell me what you see'")
+            sys.exit(1)
+    
     # Initialize the API client
     client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
     
@@ -20,10 +30,10 @@ async def main():
     edit_tool = EditTool20250124()
     tool_collection = ToolCollection(computer_tool, bash_tool, edit_tool)
     
-    # Initial message with multi-step task
+    # Initial message with user's instruction
     messages = [{
         "role": "user",
-        "content": "Please take a screenshot, then click on the Firefox icon in the taskbar to open it, and take another screenshot to show me Firefox is open."
+        "content": instruction
     }]
     
     print("User:", messages[0]["content"])
