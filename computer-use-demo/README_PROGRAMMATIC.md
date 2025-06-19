@@ -14,24 +14,24 @@ This example demonstrates how to programmatically use the computer-use demo with
 
 2. Copy the script into the container:
    ```bash
-   podman cp claude_agent_example.py <container_name>:/home/computeruse/
+   podman cp claude_agent_loop_example.py <container_name>:/home/computeruse/
    ```
 
 3. Run the script inside the container:
    ```bash
-   podman exec -it <container_name> python /home/computeruse/claude_agent_example.py
+   podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py
    ```
 
 ## What it does
 
-The script demonstrates the full agent loop:
-1. Sends a message to Claude asking it to take a screenshot
-2. Claude responds with a tool use request for the computer tool
-3. The script executes the tool that Claude requested
-4. Sends the tool results (screenshot) back to Claude
-5. Claude analyzes the results and describes what it sees
+The script demonstrates the full agent loop with multi-step task completion:
+1. Sends a message to Claude with a multi-step task
+2. Claude breaks down the task and executes it step by step
+3. The script loops, executing each tool Claude requests
+4. Continues until Claude completes all steps
+5. Claude provides a final response when the task is done
 
-This shows how Claude makes decisions about which tools to use based on user requests.
+This matches the Streamlit behavior where Claude can complete complex multi-step tasks in a single conversation.
 
 ## Extending the example
 
