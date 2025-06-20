@@ -67,3 +67,32 @@ podman exec -it <container_name> python /home/computeruse/claude_agent_loop_exam
 # Using the Amp extension
 podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open VS Code and show me the Amp extension by Sourcegraph"
 ```
+
+## Helper Scripts
+
+### open_browser_ports.sh
+Opens all browser-accessible container ports in your default browser:
+- Port 6080: noVNC web interface (view and control the desktop)
+- Port 8501: Streamlit UI for the computer use demo
+- Port 8080: HTTP server
+
+Usage:
+```bash
+./open_browser_ports.sh
+```
+
+### share_clipboard.sh
+Facilitates clipboard sharing between macOS and the container:
+
+```bash
+# Send Mac clipboard to container
+./share_clipboard.sh send
+
+# Get container clipboard to Mac
+./share_clipboard.sh get
+
+# Show container clipboard contents
+./share_clipboard.sh show
+```
+
+The clipboard content is stored in `/home/computeruse/clipboard.txt` in the container.
