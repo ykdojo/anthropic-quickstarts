@@ -2,22 +2,35 @@
 
 This example demonstrates how to programmatically use the computer-use demo without the Streamlit UI, showing the full agent loop where Claude decides which tools to use.
 
+## Enhanced Container with VS Code
+
+The container now includes:
+- **VS Code** pre-installed with the desktop environment
+- **Sourcegraph Amp extension** (an agentic coding tool) pre-installed
+- **claude_agent_loop_example.py** automatically included in the build
+
 ## Usage
 
-1. Make sure the container is running:
+### Building the Enhanced Container (Optional)
+
+To build the container with VS Code and Amp extension:
+```bash
+podman build . -t computer-use-demo-vscode:local
+```
+
+### Running the Container
+
+1. Run the container:
    ```bash
    podman run -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+       -v $(pwd)/computer_use_demo:/home/computeruse/computer_use_demo/ \
        -v $HOME/.anthropic:/home/computeruse/.anthropic \
        -p 5900:5900 -p 8501:8501 -p 6080:6080 -p 8080:8080 \
-       -it ghcr.io/anthropics/anthropic-quickstarts:computer-use-demo-latest
+       --name computer-use-vscode \
+       -it computer-use-demo-vscode:local
    ```
 
-2. Copy the script into the container:
-   ```bash
-   podman cp claude_agent_loop_example.py <container_name>:/home/computeruse/
-   ```
-
-3. Run the script inside the container with your instruction:
+2. Run the script inside the container with your instruction:
    ```bash
    podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Your instruction here"
    ```
@@ -47,12 +60,10 @@ podman exec -it <container_name> python /home/computeruse/claude_agent_loop_exam
 
 # Web browsing
 podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open Firefox, navigate to example.com, and take a screenshot"
+
+# VS Code operations
+podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open VS Code and create a new Python file with a hello world program"
+
+# Using the Amp extension
+podman exec -it <container_name> python /home/computeruse/claude_agent_loop_example.py "Open VS Code and show me the Amp extension by Sourcegraph"
 ```
-
-## Extending the example
-
-You can extend this to:
-- Perform mouse clicks: `await computer_tool(action="left_click", coordinate=[x, y])`
-- Type text: `await computer_tool(action="type", text="Hello world")`
-- Move mouse: `await computer_tool(action="mouse_move", coordinate=[x, y])`
-- Take more screenshots and create an interaction loop

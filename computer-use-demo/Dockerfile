@@ -34,6 +34,7 @@ RUN apt-get update && \
     # Network tools
     net-tools \
     netcat \
+    wget \
     # PPA req
     software-properties-common && \
     # Userland apps
@@ -49,6 +50,12 @@ RUN apt-get update && \
     galculator \
     pcmanfm \
     unzip && \
+    # Install VS Code
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg && \
+    install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg && \
+    echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list && \
+    apt-get update && \
+    apt-get install -y code && \
     apt-get clean
 
 # Install noVNC
@@ -90,9 +97,13 @@ RUN python -m pip install --upgrade pip==23.1.2 setuptools==58.0.4 wheel==0.40.0
 COPY --chown=$USERNAME:$USERNAME computer_use_demo/requirements.txt $HOME/computer_use_demo/requirements.txt
 RUN python -m pip install -r $HOME/computer_use_demo/requirements.txt
 
+# Install VS Code extensions
+RUN code --install-extension sourcegraph.amp --user-data-dir $HOME/.config/Code
+
 # setup desktop env & app
 COPY --chown=$USERNAME:$USERNAME image/ $HOME
 COPY --chown=$USERNAME:$USERNAME computer_use_demo/ $HOME/computer_use_demo/
+COPY --chown=$USERNAME:$USERNAME claude_agent_loop_example.py $HOME/
 
 ARG DISPLAY_NUM=1
 ARG HEIGHT=768
