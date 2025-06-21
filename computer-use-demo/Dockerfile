@@ -97,6 +97,9 @@ RUN python -m pip install --upgrade pip==23.1.2 setuptools==58.0.4 wheel==0.40.0
 COPY --chown=$USERNAME:$USERNAME computer_use_demo/requirements.txt $HOME/computer_use_demo/requirements.txt
 RUN python -m pip install -r $HOME/computer_use_demo/requirements.txt
 
+# Install MCP for Python
+RUN python -m pip install "mcp[cli]>=1.0.0"
+
 # Install VS Code extensions
 RUN code --install-extension sourcegraph.amp --user-data-dir $HOME/.config/Code
 
@@ -104,6 +107,9 @@ RUN code --install-extension sourcegraph.amp --user-data-dir $HOME/.config/Code
 COPY --chown=$USERNAME:$USERNAME image/ $HOME
 COPY --chown=$USERNAME:$USERNAME computer_use_demo/ $HOME/computer_use_demo/
 COPY --chown=$USERNAME:$USERNAME claude_agent_loop_example.py $HOME/
+COPY --chown=$USERNAME:$USERNAME computer_use_mcp_server.py $HOME/
+COPY --chown=$USERNAME:$USERNAME hello_world_server.py $HOME/
+COPY --chown=$USERNAME:$USERNAME README_MCP.md $HOME/
 
 ARG DISPLAY_NUM=1
 ARG HEIGHT=768
