@@ -207,4 +207,6 @@ def get_computer_use_info() -> Dict[str, Any]:
 if __name__ == "__main__":
     # This allows the server to run
     import sys
-    mcp.run(sys.argv[1:])
+    # Default to stdio transport if not specified
+    transport = sys.argv[1] if len(sys.argv) > 1 else "stdio"
+    mcp.run(transport=transport)
