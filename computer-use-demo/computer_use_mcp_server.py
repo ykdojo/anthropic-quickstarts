@@ -81,7 +81,7 @@ async def computer_use(
             
             # Send message to Claude
             response = client.beta.messages.create(
-                model="claude-sonnet-4-20250514",
+                model="claude-opus-4-20250514",
                 max_tokens=4096,
                 messages=messages,
                 tools=tool_collection.to_params(),
@@ -199,7 +199,7 @@ def get_computer_use_info() -> Dict[str, Any]:
                 "description": "Edit files with string replacement"
             }
         ],
-        "model": "claude-sonnet-4-20250514",
+        "model": "claude-opus-4-20250514",
         "max_steps_default": 20,
         "requires": ["ANTHROPIC_API_KEY environment variable"]
     }

@@ -47,7 +47,7 @@ async def main(instruction=None):
         
         # Send message to Claude
         response = client.beta.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-opus-4-20250514",
             max_tokens=4096,
             messages=messages,
             tools=tool_collection.to_params(),
