@@ -1,3 +1,9 @@
+[project]
+name = "computer-use-demo"
+version = "1.0.0"
+description = "Anthropic computer use demo with MCP server"
+requires-python = ">=3.11"
+
 [tool.pyright]
 venvPath = "."
 venv = ".venv"
@@ -6,3 +12,6 @@ useLibraryCodeForTypes = false
 [tool.pytest.ini_options]
 pythonpath = "."
 asyncio_mode = "auto"
+
+[tool.mcp]
+server = "hello_world_server.py"
