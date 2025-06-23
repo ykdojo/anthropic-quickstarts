@@ -35,6 +35,8 @@ RUN apt-get update && \
     net-tools \
     netcat \
     wget \
+    # GitHub CLI
+    gh \
     # PPA req
     software-properties-common && \
     # Userland apps

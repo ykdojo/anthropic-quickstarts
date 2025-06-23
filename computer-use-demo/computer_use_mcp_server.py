@@ -175,6 +175,39 @@ async def computer_use(
         }
 
 @mcp.tool()
+def get_runtime_info() -> Dict[str, Any]:
+    """
+    Get runtime environment information
+    
+    Returns:
+        Information about the current Python runtime environment
+    """
+    import sys
+    import platform
+    
+    # Get the current file path
+    current_file = __file__
+    
+    # Get environment variable keys (not values for security)
+    env_keys = list(os.environ.keys())
+    
+    return {
+        "python_file": current_file,
+        "absolute_path": os.path.abspath(current_file),
+        "working_directory": os.getcwd(),
+        "python_version": sys.version,
+        "python_executable": sys.executable,
+        "platform": {
+            "system": platform.system(),
+            "release": platform.release(),
+            "machine": platform.machine(),
+            "processor": platform.processor()
+        },
+        "environment_variables": sorted(env_keys),
+        "python_path": sys.path
+    }
+
+@mcp.tool()
 def get_computer_use_info() -> Dict[str, Any]:
     """
     Get information about the computer use capabilities

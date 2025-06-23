@@ -14,16 +14,32 @@
   "containerEnv": {
     "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
   },
-  "forwardPorts": [6080, 5900],
+  "forwardPorts": [5900, 8501, 6080, 8080],
   "portsAttributes": {
+    "5900": {
+      "label": "VNC",
+      "onAutoForward": "silent"
+    },
+    "8501": {
+      "label": "Streamlit",
+      "onAutoForward": "notify"
+    },
     "6080": {
       "label": "noVNC",
       "onAutoForward": "notify"
     },
-    "5900": {
-      "label": "VNC",
-      "onAutoForward": "silent"
+    "8080": {
+      "label": "HTTP Server",
+      "onAutoForward": "notify"
     }
   },
-  "remoteUser": "computeruse"
+  "mounts": [
+    "source=${localWorkspaceFolder}/computer_use_demo,target=/home/computeruse/computer_use_demo,type=bind",
+    "source=${localEnv:HOME}/.anthropic,target=/home/computeruse/.anthropic,type=bind",
+    "source=${localEnv:HOME}/.config/gh,target=/home/computeruse/.config/gh,type=bind"
+  ],
+  "runArgs": ["-it"],
+  "remoteUser": "computeruse",
+  "postCreateCommand": "sudo mkdir -p /workspaces/amp && sudo chown computeruse:computeruse /workspaces/amp && git clone https://github.com/sourcegraph/amp /workspaces/amp",
+  "postStartCommand": "/home/computeruse/entrypoint.sh"
 }
